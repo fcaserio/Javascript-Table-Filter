@@ -11,8 +11,8 @@ child column, cfg optional;
 cfg supports {
   maxWidth:int,
   default:string,
-  format:funtion(elm) { return string or array },
-  sort:funtion(a,b) { return boolean; } }
+  format:function(elm) { return string or array },
+  sort:function(a,b) { return boolean; } }
 */
 5. Apply Filter:
 tblAdm.apply();
