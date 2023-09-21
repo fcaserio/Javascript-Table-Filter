@@ -1,0 +1,2827 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>TABLE FILTER</TITLE>>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+<script type="text/javascript" src="js/table_filter_lib.js"></script>
+<script type="text/javascript">
+<!--- 
+function initFilter() { 
+		var tblAdm = new setupFilter(document.querySelector('TABLE')); 
+		var cfg = {
+			maxWidth: 150,
+			format: function(elm) {
+				var pat = /\s*\(.*?\)\s*/g; // remove parentheses
+				if (elm.querySelectorAll('LI').length > 0) {
+					var ret = [];
+					for (var li of elm.querySelectorAll('LI')) {
+						ret.push(li.innerText.replace(pat,''));
+					}
+					return ret;
+				} else {
+					return elm.innerText.replace(pat,'');
+				}
+			}
+		}
+		tblAdm.addCol('Official language', false, cfg); // Add filter to Official language column
+		tblAdm.addCol('Regional language', false, cfg); // Add filter to Regional language column
+		tblAdm.addCol('Minority language', false, cfg); // Add filter to Minority language column
+		tblAdm.addCol('National language', false, cfg); // Add filter to National language column
+		tblAdm.addCol('Widely spoken', false, cfg);     // Add filter to Widely spoken column
+		tblAdm.apply();
+	}
+// --->
+</script>
+<style>
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+	vertical-align: top;
+}
+
+th /*, tr:nth-child(even) */ {
+	background-color: #dddddd;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+</style>
+</head>
+<body>
+
+<h2>
+	Country Languages 
+	<img 
+		src=' data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAHTAAAB0wFzb496AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAZVQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxy7YmgAAAIZ0Uk5TAAECAwQFBgcJCgsMDQ4PEBESExUXGBkaHB8hJCUmJygpKissLS8wMTQ3ODo+P0BBQklKTVJVWlxeY2ZnbG9xd3l7fICFi4+UlpeZnJ2eoaKmq6+xs7S2t7i7v8LGycrLzM3O0NPU1tfY2dzd3+Dh5Obn6Onq6+zt7u/w8vT19/j5+vv8/f74F6GfAAACrklEQVR42u2aaVeSQRxHfwJukGZiKZiaaaRJ5IImaZqJWpi5ZJpbrlmYoVmmoYKgPJ+7F7Qrzzoz/zdzv8C9c86cmTkzAwA3I+9TinDSH0ZrAAAIENizpPwA4P2mkPHVA2BNIeQt4FJIccJHG+BDkDYgiDragDpgmdK/DKAhSedPNgBA5zmV/7wzuxT2UAX04CcDNP4B/GaYwj/8x4+8cfH+8by/AuCYFu2fduAfihbE+heK8B+l6yL966W4QMWWOP9WBS7BuyvKv+vFpTQeivEfNiIHLSci/CctyEmbgPNpqg0qdGV4+zNdUKWXd0AvNBjk6x+EJiM8/SPaftgm+PknbDoCkD/Lyz+bD10UL/LxLxZDJ2UbPPwbZdBN5TZ7/3YlDFC9x9q/Vw1D+OJs/XEfDOJPsPQn/DBMR5qdP90BE3Qz25gy3TBFH6uAPpgkzMYfhmkiLPwR837YJq37J20WAlAwZ9U/VwBLuJas+ZdcsEj5phX/ZjksUxUz749VgQG1+2b9+7VgQtOROf9RExjRauoiLdkKZgTPjPvPgmBIyHhACEzpN+rvB2OGjPmHwJwxI/4x9n7Yp/T7p+wcAlA4r9c/XwgulKzq86+WgBPuqB5/1A1ueHa0/TsecKT+QMt/UA+uNB+r+4+bwZl29YB2cOeFmv8lfz+ufVGZAG4BAXgmdgW+iMob12MhAfdyBwSEBKg89vpkgAyQATJABsgAGSADZIAMkAEyQAbIABkgA2QAdcAd6gA3ccBnEAeEiQM+XqUNSNwFbUAItAHPQRvw2k4bsOIEacCn6yAN+H4LpAGnAZAGaP3W5h7wBLQBEdAGzDhoA9ZcIA2I3QBpQPw2SANOH4A24CFoA56S+OH89bVtFETMZP1vHFQB9+OKoigrV0BGzat30UeMxv8DUiSqHRljWNcAAAAASUVORK5CYII=' 
+		style='cursor:pointer;height:15px;opacity:.3;'
+		onclick='initFilter()' 
+	>
+</h2>
+
+<table>
+<thead>
+<tr>
+	<th>Country/Region</th>
+	<th width="300pt">Official language</th>
+	<th width="300pt">Regional language</th>
+	<th>Minority language</th>
+	<th>National language</th>
+	<th>Widely spoken</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+	<td>Abkhazia
+	</td>
+	<td>
+	<ul>
+	<li>Abkhaz</li>
+	<li>Russian</li>
+</ul>
+	</td>
+	<td>
+	</td>
+	<td>Georgian
+	</td>
+	<td>Abkhaz
+	</td>
+	<td>
+	</td>
+</tr>
+<tr>
+<td>Afghanistan</td>
+<td>
+<ul>
+	<li>Persian (Dari)</li>
+	<li>Pashto</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Uzbek</li>
+	<li>Turkmen</li>
+	<li>Pashayi</li>
+	<li>Nuristani</li>
+	<li>Balochi</li>
+	<li>Pamiri</li>
+</ul>
+</td>
+<td></td>
+<td>
+<ul>
+	<li>Persian (Dari)</li>
+	<li>Pashto</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Persian (Dari)</li>
+</ul>
+</td></tr>
+<tr>
+<td>Albania</td>
+<td>Albanian</td>
+<td></td>
+<td>
+<ul>
+	<li>Greek</li>
+	<li>Macedonian</li>
+	<li>Aromanian</li>
+</ul>
+</td>
+<td></td>
+<td>Italian</td></tr>
+<tr>
+<td>Algeria</td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>Berber</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>Berber</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Andorra</td>
+<td>Catalan</td>
+<td></td>
+<td>
+<ul>
+	<li>Spanish</li>
+	<li>French</li>
+	<li>Portuguese</li>
+</ul>
+</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Angola</td>
+<td>Portuguese</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Kimbundu</li>
+	<li>Umbundu</li>
+	<li>Kikongo</li>
+	<li>Chokwe</li>
+	<li>Kwanyama</li>
+	<li>Ganguela</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Angolan Portuguese</li>
+</ul>
+</td></tr>
+<tr>
+<td>Antigua and Barbuda</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Antiguan and Barbudan Creole</li>
+</ul>
+</td></tr>
+<tr>
+<td>Argentina</td>
+<td>Spanish</td>
+<td>
+<ul>
+	<li>Spanish (in Corrientes and Chaco)</li>
+	<li>Guaraní (in Corrientes)</li>
+	<li>Kom (in Chaco)</li>
+	<li>Moquoit (in Chaco)</li>
+	<li>Wichi (in Chaco)</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Argentine Spanish</li>
+</ul>
+</td></tr>
+<tr>
+<td>Armenia</td>
+<td>Armenian</td>
+<td></td>
+<td></td>
+<td>Armenian (state language)</td>
+<td></td></tr>
+<tr>
+<td>Artsakh</td>
+<td>
+<ul>
+	<li>Armenian</li>
+	<li>Russian</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Australia</td>
+<td>English</td>
+<td>Norfuk language (on Norfolk island)</td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Austria</td>
+<td>
+<p>German</p></td>
+<td>
+<ul>
+	<li>Burgenland Croatian (parts of Burgenland)</li>
+	<li>Hungarian (parts of Burgenland)</li>
+	<li>Slovene (parts of Carinthia)</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Slovene</li>
+	<li>Czech</li>
+	<li>Hungarian</li>
+	<li>Slovak</li>
+	<li>Romani</li>
+	<li>Serbian</li>
+</ul>
+</td>
+<td>German (state language)</td>
+<td>
+<p>English</p></td></tr>
+<tr>
+<td>Azerbaijan</td>
+<td>Azerbaijani</td>
+<td></td>
+<td></td>
+<td>Azerbaijani (state language)</td>
+<td></td></tr>
+<tr>
+<td>Bahamas</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Bahrain</td>
+<td>Arabic</td>
+<td></td>
+<td>English</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Bangladesh</td>
+<td>Bengali</td>
+<td>
+<ul>
+	<li>Sylheti(parts of Sylhet Division)</li>
+	<li>Chittagonian(parts of Chittagong Division)</li>
+	<li>Rangpuri/kamtapuri language(parts of Rangpur Division)</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Chakma</li>
+	<li>Marma</li>
+	<li>Rakhine</li>
+	<li>Hajong</li>
+	<li>Santali</li>
+	<li>Tripuri</li>
+	<li>Manipuri</li>
+</ul>
+</td>
+<td>Bengali</td>
+<td>English</td></tr>
+<tr>
+<td>Barbados</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Belarus</td>
+<td>
+<ul>
+	<li>Belarusian</li>
+	<li>Russian</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Belarusian</td>
+<td></td></tr>
+<tr>
+<td>Belgium</td>
+<td>
+<ul>
+	<li>Dutch</li>
+	<li>French</li>
+	<li>German</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Dutch (Flanders, Brussels)</li>
+	<li>French (Brussels, Wallonia)</li>
+	<li>German (German-speaking community)</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>
+<p>English</p></td></tr>
+<tr>
+<td>Belize</td>
+<td>English</td>
+<td>Spanish (border with Mexico and Guatemala)</td>
+<td></td>
+<td></td>
+<td>Kriol (lingua franca)</td></tr>
+<tr>
+<td>Benin</td>
+<td>French</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Bhutan</td>
+<td>Dzongkha</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Bolivia</td>
+<td>
+<ul>
+	<li>Castilian (Spanish)</li>
+	<li>Aymara</li>
+	<li>Araona</li>
+	<li>Baure</li>
+	<li>Bésiro (Chiquitano)</li>
+	<li>Canichana</li>
+	<li>Cavineña</li>
+	<li>Cayubaba</li>
+	<li>Chácobo</li>
+	<li>Chimán</li>
+	<li>Ese Ejja</li>
+	<li>Guaraní</li>
+	<li>Guarasu'we</li>
+	<li>Guarayu</li>
+	<li>Itonama</li>
+	<li>Leco</li>
+	<li>Machajuyai-Kallawaya</li>
+	<li>Machineri</li>
+	<li>Maropa</li>
+	<li>Mojeño-Ignaciano</li>
+	<li>Mojeño-Trinitario</li>
+	<li>Moré</li>
+	<li>Mosetén</li>
+	<li>Movima</li>
+	<li>Pacawara</li>
+	<li>Puquina</li>
+	<li>Quechua</li>
+	<li>Sirionó</li>
+	<li>Tacana</li>
+	<li>Tapieté</li>
+	<li>Toromona</li>
+	<li>Uru-Chipaya</li>
+	<li>Weenhayek</li>
+	<li>Yaminawa</li>
+	<li>Yuki</li>
+	<li>Yuracaré</li>
+	<li>Zamuco</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td><td></td></tr>
+<tr>
+<td>Bosnia and Herzegovina</td>
+<td>
+<ul>
+	<li>Bosnian</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Botswana</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td>Tswana</td>
+<td>
+<ul>
+	<li>Other Bantu languages</li>
+	<li>Several Khoisan languages</li>
+</ul>
+</td></tr>
+<tr>
+<td>Brazil</td>
+<td>
+<p>Portuguese</p></td>
+<td>
+<ul>
+	<li>German (in Pomerode)</li>
+	<li>East Pomeranian (in Pancas, Santa Maria de Jetibá, Domingos Martins, Itarana, Laranja da Terra, Vila Pavão and Canguçu)</li>
+	<li>Riograndenser Hunsrückisch (in Antônio Carlos, Santa Catarina, and in Santa Maria do Herval, Rio Grande do Sul)</li>
+	<li>Talian (in Bento Gonçalves, Caxias do Sul, Flores da Cunha Nova Roma do Sul and Serafina Corréa)</li>
+	<li>Nheengatu, Baniwa, Tucano (in São Gabriel de Cachoeira, Amazonas)</li>
+	<li>Guaraní (in Tacuru, Mato Grosso do Sul)</li>
+</ul>
+</td>
+<td></td>
+<td>Portuguese</td>
+<td></td></tr>
+<tr>
+<td>Brunei</td>
+<td>
+<ul>
+	<li>Malay</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Bulgaria</td>
+<td>Bulgarian</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Burkina Faso</td>
+<td>French</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Fula</li>
+	<li>Jula</li>
+	<li>More</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Burundi</td>
+<td>
+<ul>
+	<li>French</li>
+	<li>Kirundi</li>
+	<li>English</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Kirundi</td>
+<td>Swahili</td></tr>
+<tr>
+<td>Cambodia</td>
+<td>Khmer</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Cameroon</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>French</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Canada</td>
+<td>
+<ul>
+	<li>English (Federal)</li>
+	<li>French (Federal)</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Chipewyan (Northwest Territories)</li>
+	<li>Cree (Northwest Territories)</li>
+	<li>Gwich'in (Northwest Territories)</li>
+	<li>Inuinnaqtun (Northwest Territories and Nunavut)</li>
+	<li>Inuktitut (Northwest Territories and Nunavut)</li>
+	<li>Inuvialuktun (Northwest Territories)</li>
+	<li>Mi'kmaq (Nova Scotia)</li>
+	<li>North Slavey (Northwest Territories)</li>
+	<li>South Slavey (Northwest Territories)</li>
+	<li>Tli?cho (Northwest Territories)</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Chipewyan</li>
+	<li>Cree</li>
+	<li>Gwich'in</li>
+	<li>Inuinnaqtun</li>
+	<li>Inuktitut</li>
+	<li>Inuvialuktun</li>
+	<li>Mi'kmaq</li>
+	<li>North Slavey</li>
+	<li>South Slavey</li>
+	<li>Tli?cho</li>
+</ul>
+</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Cape Verde</td>
+<td>Portuguese</td>
+<td></td>
+<td></td>
+<td>Cape Verdean Creole</td>
+<td></td></tr>
+<tr>
+<td>Central African Republic</td>
+<td>
+<ul>
+	<li>French</li>
+	<li>Sango</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Chad</td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>French</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Chile</td>
+<td>Chilean Spanish</td>
+<td>(Languages of ethnic groups are official in their territories)</td>
+<td></td>
+<td>Chilean Spanish</td>
+<td></td></tr>
+<tr>
+<td>China</td>
+<td>Standard Chinese</td>
+<td>
+<ul>
+	<li>English (Hong Kong)</li>
+	<li>Portuguese (Macau)</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Mongolian</li>
+	<li>Uyghur</li>
+	<li>Tibetan</li>
+	<li>Zhuang</li>
+	<li>Kazakh</li>
+	<li>Korean</li>
+</ul>
+</td>
+<td></td>
+<td>Other Sinitic languages</td></tr>
+<tr>
+<td>Christmas Island</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Mandarin Chinese</li>
+	<li>Malay</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Cocos (Keeling) Islands</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Cocos Malay</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Malay</td></tr>
+<tr>
+<td>Colombia</td>
+<td>Spanish</td>
+<td>(Languages of ethnic groups are official in their territories)</td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Comoros</td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>Comorian</li>
+	<li>French</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Democratic Republic of the Congo</td>
+<td>French</td>
+<td></td>
+<td>
+<ul>
+	<li>Lingala</li>
+	<li>Kikongo</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Swahili</li>
+	<li>Tshiluba</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Republic of the Congo</td>
+<td>French</td>
+<td></td>
+<td>
+<ul>
+	<li>Lingala</li>
+	<li>Munukutuba</li>
+</ul>
+</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Cook Islands</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Cook Islands Maori</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Costa Rica</td>
+<td>Spanish</td>
+<td></td>
+<td>
+<ul>
+	<li>Indigenous languages</li>
+	<li>Limonese Creole</li>
+</ul>
+</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Croatia</td>
+<td>Croatian</td>
+<td>
+<ul>
+	<li>Serbian</li>
+	<li>Hungarian</li>
+	<li>Czech</li>
+	<li>Slovak</li>
+	<li>Pannonian Rusyn</li>
+	<li>Istro-Romanian</li>
+</ul>
+</td>
+<td></td>
+<td>
+<ul>
+	<li>Italian (Istria County)</li>
+	<li>Romani (non-territorial)</li>
+	<li>Slovene (non-territorial)</li>
+</ul>
+</td>
+<td>
+<p>English</p></td></tr>
+<tr>
+<td>Cuba</td>
+<td>Spanish</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Cyprus</td>
+<td>
+<ul>
+	<li>Greek</li>
+	<li>Turkish</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Armenian</li>
+	<li>Cypriot Arabic</li>
+</ul>
+</td>
+<td>English</td></tr>
+<tr>
+<td>Czech Republic</td>
+<td>
+<ul>
+	<li>Czech</li>
+	<li>Slovak</li>
+</ul>
+</td>
+<td></td>
+<td>
+<ul>
+	<li>Belarusian</li>
+	<li>Bulgarian</li>
+	<li>Croatian</li>
+	<li>German</li>
+	<li>Greek</li>
+	<li>Hungarian</li>
+	<li>Polish</li>
+	<li>Romani</li>
+	<li>Russian</li>
+	<li>Rusyn</li>
+	<li>Serbian</li>
+	<li>Ukrainian</li>
+	<li>Vietnamese</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Czech</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Denmark</td>
+<td>Danish</td>
+<td>
+<ul>
+	<li>Faroese (in the Faroe Islands)</li>
+	<li>Kalaallisut (in Greenland)</li>
+</ul>
+</td>
+<td>German (in Southern Jutland)</td>
+<td></td>
+<td>English</td></tr>
+<tr>
+<td>Djibouti</td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>French</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Dominica</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Dominican Republic</td>
+<td>Spanish</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>East Timor</td>
+<td>
+<ul>
+	<li>Portuguese</li>
+	<li>Tetum</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Ecuador</td>
+<td>
+<ul>
+	<li>Spanish</li>
+	<li>Quechua (official language of intercultural relation)</li>
+</ul>
+</td>
+<td></td>
+<td>
+<ul>
+	<li>Kichwa (official minority language)</li>
+	<li>Shuar (official minority language)</li>
+</ul>
+</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Egypt</td>
+<td>Arabic</td>
+<td></td>
+<td>Coptic</td>
+<td>Egyptian Arabic</td>
+<td>English</td></tr>
+<tr>
+<td>El Salvador</td>
+<td>Spanish</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Equatorial Guinea</td>
+<td>
+<ul>
+	<li>French</li>
+	<li>Portuguese</li>
+	<li>Spanish</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Eritrea</td>
+<td>Tigrinya</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>Italian</li>
+</ul>
+</td></tr>
+<tr>
+<td>Estonia</td>
+<td>Estonian</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Russian</td></tr>
+<tr>
+<td>Eswatini</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Swazi</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Ethiopia</td>
+<td>
+<ul>
+	<li>Afar</li>
+	<li>Amharic</li>
+	<li>Oromo</li>
+	<li>Somali</li>
+	<li>Tigrinya</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Afar</li>
+	<li>Amharic</li>
+	<li>Benshangul</li>
+	<li>Gumuz</li>
+	<li>Harari</li>
+	<li>Kunama</li>
+	<li>Oromo</li>
+	<li>Sidamo</li>
+	<li>Somali</li>
+	<li>Tigrinya</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Fiji</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Fijian</li>
+	<li>Fiji Hindi</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Finland</td>
+<td>
+<ul>
+	<li>Finnish</li>
+	<li>Swedish</li>
+</ul>
+</td>
+<td></td>
+<td>Sami (in Enontekiö, Inari, Sodankylä, Utsjoki)</td>
+<td>
+<ul>
+	<li>Finnish</li>
+	<li>Swedish</li>
+</ul>
+</td>
+<td>
+<p>English</p></td></tr>
+<tr>
+<td>France</td>
+<td>French</td>
+<td></td>
+<td>
+<ul>
+	<li>Corsican language</li>
+	<li>Basque language</li>
+	<li>Breton language</li>
+</ul>
+</td>
+<td></td>
+<td>Occitan language</td></tr>
+<tr>
+<td>Gabon</td>
+<td>French</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Gambia</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Georgia</td>
+<td>Georgian</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Germany</td>
+<td>German</td>
+<td>
+<ul>
+	<li>Danish (in Schleswig-Holstein)</li>
+	<li>Lower Sorbian (in Brandenburg)</li>
+	<li>North Frisian (in Schleswig-Holstein)</li>
+	<li>Saterland Frisian (in Lower Saxony)</li>
+	<li>Upper Sorbian (in Saxony)</li>
+	<li>German Sign Language</li>
+	<li>Low German</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Danish</li>
+	<li>Lower Sorbian</li>
+	<li>North Frisian</li>
+	<li>Romani</li>
+	<li>Upper Sorbian</li>
+</ul>
+</td>
+<td></td>
+<td>
+<p>English</p>
+</td>
+</tr>
+<tr>
+<td>Ghana</td>
+<td>English</td>
+<td>
+<ul>
+	<li>Fante</li>
+	<li>Asante Twi</li>
+	<li>Akuapem Twi</li>
+	<li>Adangme (in Greater Accra)</li>
+	<li>Dagaare (in the Upper West Region)</li>
+	<li>Dagbani (in the Northern Region)</li>
+	<li>Ewe (in the Volta Region)</li>
+	<li>Ga (in the Greater Accra)</li>
+	<li>Gonja (in the Northern Region)</li>
+	<li>Kasem (in the Upper East Region)</li>
+	<li>Nzema (in the Western Region)</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Greece</td>
+<td>Greek</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Grenada</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Guatemala</td>
+<td>Spanish</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Guinea</td>
+<td>French</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Fula</li>
+	<li>Maninka</li>
+	<li>Susu</li>
+</ul>
+</td></tr>
+<tr>
+<td>Guinea-Bissau</td>
+<td>Portuguese</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Guyana</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Guyanese Creole</td></tr>
+<tr>
+<td>Haiti</td>
+<td>
+<ul>
+	<li>French</li>
+	<li>Haitian Creole</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Honduras</td>
+<td>Spanish</td>
+<td>
+<ul>
+	<li>Garifuna (on the Caribbean Coast)</li>
+	<li>English (in the Bay Islands)</li>
+	<li>Miskito (in Eastern Honduras)</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Hungary</td>
+<td>Hungarian</td>
+<td></td>
+<td>
+<ul>
+	<li>Croatian</li>
+	<li>German</li>
+	<li>Romanian</li>
+	<li>Serbian</li>
+	<li>Slovak</li>
+	<li>Slovene</li>
+</ul>
+</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Iceland</td>
+<td>
+<ul>
+	<li>Icelandic</li>
+	<li>Icelandic Sign Language</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>India</td>
+<td>
+<ul>
+	<li>Hindi</li>
+	<li>English</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Assamese</li>
+	<li>Bengali</li>
+	<li>Bodo</li>
+	<li>Dogri</li>
+	<li>Gujarati</li>
+	<li>Hindi</li>
+	<li>Kannada</li>
+	<li>Kashmiri</li>
+	<li>Konkani</li>
+	<li>Maithili</li>
+	<li>Malayalam</li>
+	<li>Meitei (Manipuri)</li>
+	<li>Marathi</li>
+	<li>Nepali</li>
+	<li>Odia (Oriya)</li>
+	<li>Punjabi</li>
+	<li>Sanskrit</li>
+	<li>Santali</li>
+	<li>Sindhi</li>
+	<li>Tamil</li>
+	<li>Telugu</li>
+	<li>and Urdu.</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>see Languages of India</li>
+</ul>
+</td>
+<td></td>
+<td>
+<ul>
+	<li>see List of languages by number of native speakers in India</li>
+</ul>
+</td></tr>
+<tr>
+<td>Indonesia</td>
+<td>Indonesian</td>
+<td>
+<ul>
+	<li>Malay</li>
+	<li>Javanese</li>
+</ul>
+</td>
+<td></td>
+<td>
+<ul>
+	<li>Indonesian</li>
+	<li>Malay</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Malay</li>
+	<li>Javanese</li>
+	<li>Indonesian</li>
+	<li>Sundanese</li>
+	<li>Madurese</li>
+	<li>Minangkabau</li>
+	<li>700 more languages in Indonesia</li>
+</ul>
+</td></tr>
+<tr>
+<td>Iran</td>
+<td>Persian</td>
+<td></td>
+<td>
+<ul>
+	<li>Azerbaijani</li>
+	<li>Kurdish</li>
+	<li>Luri</li>
+	<li>Gilaki</li>
+	<li>Mazanderani</li>
+	<li>Balochi</li>
+	<li>Arabic</li>
+	<li>Qashqai</li>
+	<li>Tati</li>
+	<li>Turkmeni</li>
+</ul>
+</td>
+<td>Persian</td>
+<td></td></tr>
+<tr>
+<td>Iraq</td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>Kurdish</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Armenian recognized</li>
+	<li>Assyrian Neo-Aramaic (in Assyrian areas)</li>
+	<li>Iraqi Turkmen (in Turkmen areas)</li>
+	<li>Kurdish</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Ireland</td>
+<td>
+<ul>
+	<li>Irish</li>
+	<li>English</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Irish</td>
+<td></td></tr>
+<tr>
+<td>Israel</td>
+<td>Hebrew</td>
+<td>Arabic</td>
+<td>English</td>
+<td></td>
+<td>
+<ul>
+	<li>Russian</li>
+	<li>English</li>
+</ul>
+</td></tr>
+<tr>
+<td>Italy</td>
+<td>Italian</td>
+<td>
+<ul>
+	<li>French (in Aosta Valley)</li>
+	<li>Franco-Provençal (in Aosta Valley)</li>
+	<li>Occitan (in Piedmont's Occitan Valleys)</li>
+	<li>German (in South Tyrol)</li>
+	<li>Ladin (in South Tyrol)</li>
+	<li>Friulian (in Friuli Venezia Giulia)</li>
+	<li>Slovene (in Province of Trieste, Province of Gorizia)</li>
+	<li>Albanian/Arbereshe (in Sicily and Calabria)</li>
+	<li>Sardinian (in Sardinia)</li>
+	<li>Corsican (in northern Sardinia)</li>
+	<li>Two dialects of Greek, Griko (in Grecìa Salentina) and Calabrian Greek (in Calabria)</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Ladin</li>
+	<li>Slovene</li>
+</ul>
+</td>
+<td></td>
+<td>Other Italo-Dalmatian languages</td></tr>
+<tr>
+<td>Ivory Coast</td>
+<td>French</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Jamaica</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td>Jamaican Patois</td>
+<td></td></tr>
+<tr>
+<td>Japan</td>
+<td>Japanese</td>
+<td></td>
+<td></td>
+<td>Japanese</td>
+<td></td></tr>
+<tr>
+<td>Jordan</td>
+<td>Arabic</td>
+<td></td>
+<td>Circassian
+<p>Chechen
+Armenian</p></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Kazakhstan</td>
+<td>
+<ul>
+	<li>Kazakh</li>
+	<li>Russian</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Kazakh</td>
+<td></td></tr>
+<tr>
+<td>Kenya</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Swahili</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Swahili</td>
+<td></td></tr>
+<tr>
+<td>Kiribati</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Gilbertese</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>North Korea</td>
+<td>Korean</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>South Korea</td>
+<td>
+<ul>
+	<li>Korean</li>
+	<li>Korean Sign Language</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Kosovo</td>
+<td>
+<ul>
+	<li>Albanian</li>
+	<li>Serbian</li>
+</ul>
+</td>
+<td>Turkish</td>
+<td></td>
+<td>
+<ul>
+	<li>Albanian (nationwide)</li>
+	<li>Serbian (Northern Kosovo)</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Kuwait</td>
+<td>Standard Arabic</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Kuwaiti Sign Language</li>
+	<li>Kuwaiti Arabic</li>
+	<li>Kuwaiti Persian</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Kyrgyzstan</td>
+<td>
+<ul>
+	<li>Kyrgyz</li>
+	<li>Russian</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Kyrgyz</td>
+<td></td></tr>
+<tr>
+<td>Laos</td>
+<td>Lao</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Latvia</td>
+<td>Latvian</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Russian</td></tr>
+<tr>
+<td>Lebanon</td>
+<td>Arabic</td>
+<td>
+<ul>
+	<li>Arabic</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Armenian</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>English</li>
+	<li>French</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>English</li>
+	<li>French</li>
+</ul>
+</td></tr>
+<tr>
+<td>Lesotho</td>
+<td>
+<ul>
+	<li>Sotho</li>
+	<li>English</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Sotho</td>
+<td></td></tr>
+<tr>
+<td>Liberia</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Libya</td>
+<td>Arabic</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Liechtenstein</td>
+<td>German</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Lithuania</td>
+<td>Lithuanian</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Russian</li>
+</ul>
+</td></tr>
+<tr>
+<td>Luxembourg</td>
+<td>
+<ul>
+	<li>French</li>
+	<li>German</li>
+	<li>Luxembourgish</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Luxembourgish</td>
+<td></td></tr>
+<tr>
+<td>Madagascar</td>
+<td>
+<ul>
+	<li>French</li>
+	<li>Malagasy</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Malagasy</td>
+<td></td></tr>
+<tr>
+<td>Malawi</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Chichewa</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Chichewa</td>
+<td></td></tr>
+<tr>
+<td>Malaysia</td>
+<td>Malay</td>
+<td>Regional/State dialects</td>
+<td></td>
+<td>Malay</td>
+<td>
+<ul>
+	<li>Malay</li>
+	<li>Mandarin Chinese</li>
+	<li>Cantonese</li>
+	<li>Tamil</li>
+	<li>English</li>
+</ul>
+</td></tr>
+<tr>
+<td>Maldives</td>
+<td>Dhivehi</td>
+<td></td>
+<td></td>
+<td>Dhivehi</td>
+<td>English</td></tr>
+<tr>
+<td>Mali</td>
+<td>
+<ul>
+	<li>Bambara</li>
+	<li>Bobo</li>
+	<li>Bozo</li>
+	<li>Dogon</li>
+	<li>Fula</li>
+	<li>Hassaniya</li>
+	<li>Kassonke</li>
+	<li>Maninke</li>
+	<li>Minyanka</li>
+	<li>Senufo</li>
+	<li>Songhay languages</li>
+	<li>Soninke</li>
+	<li>Tamasheq</li>
+</ul>
+</td>
+<td></td>
+<td>French</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Malta</td>
+<td>
+<ul>
+	<li>Maltese</li>
+	<li>English</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Maltese</td>
+<td></td></tr>
+<tr>
+<td>Sovereign Military Order of Malta</td>
+<td>Italian</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Marshall Islands</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Marshallese</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Mauritania</td>
+<td>Arabic</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>Fula</li>
+	<li>Soninke</li>
+	<li>Wolof</li>
+</ul>
+</td>
+<td>French</td></tr>
+<tr>
+<td>Mauritius</td>
+<td>English
+<p>Mauritian Creole (Also known as 'Morisien')</p></td>
+<td></td>
+<td>English</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Mexico</td>
+<td>Spanish</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Federated States of Micronesia</td>
+<td>English</td>
+<td>
+<ul>
+	<li>Chuukese (in Chuuk State)</li>
+	<li>Kosraean (in Kosrae State)</li>
+	<li>Pohnpeian (in Pohnpei State)</li>
+	<li>Yapese (in Yap State)</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Moldova</td>
+<td>Romanian</td>
+<td>
+<ul>
+	<li>Gagauz</li>
+	<li>Russian</li>
+	<li>Ukrainian</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Monaco</td>
+<td>French</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Monégasque</td></tr>
+<tr>
+<td>Mongolia</td>
+<td>Mongolian</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Montenegro</td>
+<td>
+<ul>
+	<li>Montenegrin</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Morocco</td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>Berber</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>Berber</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Mozambique</td>
+<td>Portuguese</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Myanmar (Burma)</td>
+<td>Burmese</td>
+<td>
+<ul>
+	<li>Chin</li>
+	<li>Kachin</li>
+	<li>Karen</li>
+	<li>Karenni</li>
+	<li>Mon</li>
+	<li>Rakhine</li>
+	<li>Shan</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>English</td></tr>
+<tr>
+<td>Namibia</td>
+<td>English</td>
+<td>
+<ul>
+	<li>German</li>
+	<li>Oshiwambo</li>
+</ul>
+</td>
+<td></td>
+<td>Afrikaans</td>
+<td></td></tr>
+<tr>
+<td>Nauru</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Nauruan</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Nepal</td>
+<td>Nepali</td>
+<td></td>
+<td></td>
+<td>all languages spoken as the mother tongue in Nepal</td>
+<td></td></tr>
+<tr>
+<td>Netherlands</td>
+<td>
+<ul>
+	<li>Dutch</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Frisian (in the province Friesland)</li>
+	<li>English (in Curaçao, Sint Maarten, Sint Eustatius, Saba)</li>
+	<li>Papiamento (in Aruba, Curaçao, Bonaire)</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Dutch Low Saxon</li>
+	<li>Dutch Sign Language</li>
+	<li>Limburgish</li>
+	<li>Sinte Romani</li>
+	<li>Yiddish</li>
+</ul>
+</td>
+<td></td>
+<td>
+<p>English</p></td></tr>
+<tr>
+<td>New Zealand</td>
+<td>
+<ul>
+	<li>English has de facto status</li>
+	<li>Maori language</li>
+	<li>New Zealand Sign Language</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Nicaragua</td>
+<td>Spanish</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Niger</td>
+<td>French</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>Hausa</li>
+	<li>Fulfulde</li>
+	<li>Gulmancema</li>
+	<li>Kanuri</li>
+	<li>Zarma</li>
+	<li>Tamazight</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Nigeria</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Hausa</li>
+	<li>Yoruba</li>
+	<li>Igbo</li>
+	<li>Tiv</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Niue</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Niuean</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Norfolk Island</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Norfuk</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>North Macedonia</td>
+<td>
+<ul>
+	<li>Macedonian</li>
+	<li>Albanian</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Northern Cyprus</td>
+<td>Turkish</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Norway</td>
+<td>
+<ul>
+	<li>Norwegian</li>
+	<li>Sami languages</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Northern Sami</li>
+	<li>Lule Sami</li>
+	<li>Southern Sámi</li>
+	<li>Kven</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Kven</li>
+	<li>Scandoromani</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Bokmål (written)</li>
+	<li>Nynorsk (written)</li>
+</ul>
+</td>
+<td>
+<p>English</p></td></tr>
+<tr>
+<td>Oman</td>
+<td>Arabic</td>
+<td></td>
+<td>Shehri</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Pakistan</td>
+<td>
+<ul>
+	<li>Urdu</li>
+	<li>English</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Urdu</td>
+<td>
+<ul>
+	<li>Punjabi</li>
+	<li>Balochi</li>
+	<li>Sindhi</li>
+	<li>Pashto</li>
+</ul>
+</td></tr>
+<tr>
+<td>Palau</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Palauan</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Sonsorolese (in Sonsorol)</li>
+	<li>Tobian (in Hatohobei)</li>
+	<li>Japanese (in Angaur)</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Palestine</td>
+<td>Arabic</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Hebrew</li>
+</ul>
+</td></tr>
+<tr>
+<td>Panama</td>
+<td>Spanish</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Papua New Guinea</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Hiri Motu</li>
+	<li>PNG Sign Language</li>
+	<li>Tok Pisin</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Paraguay</td>
+<td>
+<ul>
+	<li>Spanish</li>
+	<li>Guaraní</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Peru</td>
+<td>
+<ul>
+	<li>Peruvian Spanish</li>
+	<li>Quechua</li>
+	<li>Aymara</li>
+	<li>Asháninka</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Philippines</td>
+<td>
+<ul>
+	<li>Filipino</li>
+	<li>English</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Aklanon (in the Visayas)</li>
+	<li>Bikol (in Luzon)</li>
+	<li>Cebuano (in the Visayas and Mindanao)</li>
+	<li>Chavacano (in Mindanao)</li>
+	<li>Hiligaynon (in the Visayas)</li>
+	<li>Ibanag (in Luzon)</li>
+	<li>Ilocano (in Luzon, official in La Union)</li>
+	<li>Ivatan (in Luzon)</li>
+	<li>Kapampangan (in Luzon)</li>
+	<li>Kinaray-a (in the Visayas)</li>
+	<li>Maguindanao (in Mindanao)</li>
+	<li>Maranao (in Mindanao)</li>
+	<li>Pangasinan (in Luzon)</li>
+	<li>Sambal (in Luzon)</li>
+	<li>Tagalog (in Luzon)</li>
+	<li>Tausug (in Mindanao)</li>
+	<li>Waray (in the Visayas)</li>
+	<li>Yakan (in Mindanao)</li>
+</ul>
+</td>
+<td>Arabic (optional language)<br>Spanish (optional language)<br>(+ over 100 more minority languages)</td>
+<td>
+<ul>
+	<li>Filipino</li>
+	<li>Filipino Sign Language (national sign language)</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Poland</td>
+<td>Polish</td>
+<td>Kashubian (Pomeranian Voivodeship)</td>
+<td>
+<ul>
+	<li>German (Opole Voivodeship)</li>
+	<li>Lithuanian (Punsk commune)</li>
+	<li>Belarusian (Podlaskie Voivodseship)</li>
+	<li>Czech</li>
+	<li>Hebrew</li>
+	<li>Yiddish</li>
+	<li>Lemko</li>
+	<li>Karaim</li>
+	<li>Armenian</li>
+	<li>Romani</li>
+	<li>Russian</li>
+	<li>Slovak</li>
+	<li>Tatar</li>
+	<li>Ukrainian</li>
+</ul>
+</td>
+<td></td>
+<td>
+<p>English</p></td></tr>
+<tr>
+<td>Portugal</td>
+<td>Portuguese</td>
+<td>Mirandese (Terra de Miranda)</td>
+<td></td>
+<td></td>
+<td>
+<p>English</p></td></tr>
+<tr>
+<td>Qatar</td>
+<td>Arabic</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Romania</td>
+<td>Romanian</td>
+<td></td>
+<td>
+<ul>
+	<li>Armenian</li>
+	<li>German</li>
+	<li>Hungarian</li>
+	<li>Romani</li>
+	<li>Russian</li>
+	<li>Serbian</li>
+	<li>Slovak</li>
+	<li>Tatar</li>
+	<li>Turkish</li>
+	<li>Ukrainian</li>
+</ul>
+</td>
+<td></td>
+<td>
+<ul>
+	<li>Aromanian</li>
+</ul>
+</td></tr>
+<tr>
+<td>Russia</td>
+<td>Russian</td>
+<td>(33 languages)</td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Rwanda</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>French</li>
+	<li>Kinyarwanda</li>
+	<li>Swahili</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Sahrawi Arab Democratic Republic</td>
+<td>Arabic</td>
+<td></td>
+<td></td>
+<td>Arabic</td>
+<td></td></tr>
+<tr>
+<td>Saint Kitts and Nevis</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Saint Lucia</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Saint Vincent and the Grenadines</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Samoa</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Samoan</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>San Marino</td>
+<td>Italian</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>São Tomé and Príncipe</td>
+<td>Portuguese</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Saudi Arabia</td>
+<td>Arabic</td>
+<td></td>
+<td>
+<ul>
+	<li>Faifi</li>
+	<li>Razihi</li>
+	<li>Mehri</li>
+</ul>
+</td>
+<td></td>
+<td>Indian Languages
+<p>Filipino </p><p>Bengali</p></td></tr>
+<tr>
+<td>Senegal</td>
+<td>French</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Jola-Fogny</li>
+	<li>Mandinka</li>
+	<li>Pulaar</li>
+	<li>Serer</li>
+	<li>Soninke</li>
+	<li>Wolof</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Serbia</td>
+<td>Serbian</td>
+<td></td>
+<td>(15 languages)</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Seychelles</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>French</li>
+	<li>Seychellois Creole</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Sierra Leone</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td>Krio</td>
+<td></td></tr>
+<tr>
+<td>Singapore</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Malay</li>
+	<li>Mandarin Chinese</li>
+	<li>Tamil</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Malay</td>
+<td></td></tr>
+<tr>
+<td>Slovakia</td>
+<td>Slovak</td>
+<td></td>
+<td>
+<ul>
+	<li>Bulgarian</li>
+	<li>Czech</li>
+	<li>German</li>
+	<li>Hungarian</li>
+	<li>Polish</li>
+	<li>Romani</li>
+	<li>Rusyn</li>
+	<li>Serbian</li>
+	<li>Ukrainian</li>
+</ul>
+</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Slovenia</td>
+<td>Slovene</td>
+<td></td>
+<td>
+<ul>
+	<li>Hungarian (Dobrovnik, Hodoš, Lendava)</li>
+	<li>Italian (Izola, Koper, Piran)</li>
+	<li>Croatian (Metlika, Brežice)</li>
+</ul>
+</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Solomon Islands</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Somalia</td>
+<td>Somali, Arabic</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Somaliland</td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>English</li>
+	<li>Somali</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>South Africa</td>
+<td>
+<ul>
+	<li>Afrikaans</li>
+	<li>English</li>
+	<li>Southern Ndebele</li>
+	<li>Sotho</li>
+	<li>Northern Sotho</li>
+	<li>Swazi</li>
+	<li>Tsonga</li>
+	<li>Tswana</li>
+	<li>Venda</li>
+	<li>Xhosa</li>
+	<li>Zulu</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>South Ossetia</td>
+<td>
+<ul>
+	<li>Ossetian</li>
+	<li>Russian</li>
+</ul>
+</td>
+<td>Georgian</td>
+<td>Georgian</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>South Sudan</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Bari</li>
+	<li>Dinka</li>
+	<li>Luo</li>
+	<li>Murle</li>
+	<li>Nuer</li>
+	<li>Zande</li>
+	<li>(60 other languages)</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Spain</td>
+<td>Spanish</td>
+<td>
+<ul>
+	<li>Catalan (Balearic Islands, Catalonia, Valencian Community)</li>
+	<li>Galician (Galicia)</li>
+	<li>Occitan (Catalonia)</li>
+	<li>Basque (Basque Country, Navarra)</li>
+</ul>
+</td>
+<td>
+<ul>
+	<li>Astur-Leonese (Asturias)</li>
+	<li>Aragonese (Aragon)</li>
+	<li>Fala (Province of Cáceres)</li>
+	<li>French</li>
+	<li>Portuguese</li>
+</ul>
+</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Sri Lanka</td>
+<td>
+<ul>
+	<li>Sinhala</li>
+	<li>Tamil</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+<p>English</p></td></tr>
+<tr>
+<td>Sudan</td>
+<td>
+<ul>
+	<li>Arabic</li>
+	<li>English</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Suriname</td>
+<td>Dutch</td>
+<td></td>
+<td></td>
+<td>Sranan Tongo</td>
+<td></td></tr>
+<tr>
+<td>Sweden</td>
+<td>Swedish</td>
+<td></td>
+<td>
+<ul>
+	<li>Finnish (Gällivare, Haparanda, Kiruna, Pajala, Övertorneå</li>
+	<li>Meänkieli (Gällivare, Haparanda, Kiruna, Pajala, Övertorneå)</li>
+	<li>Sami (Arjeplog, Gällivare, Jokkmokk, Kiruna)</li>
+	<li>Yiddish</li>
+	<li>Romani</li>
+</ul>
+</td>
+<td>
+<p>English</p></td><td></td></tr>
+<tr>
+<td>Switzerland</td>
+<td>
+<ul>
+	<li>French (Bern, Fribourg, Geneva, Jura, Neuchâtel, Valais, Vaud)</li>
+	<li>German (Aargau, Appenzell Ausserrhoden, Appenzell Innerrhoden, Basel-Landschaft, Basel-Stadt, Bern, Fribourg, Glarus, Graubünden, Lucerne, Nidwalden, Obwalden, Saint Gallen, Schaffhausen, Schwyz, Solothurn, Thurgau, Uri, Valais, Zug, Zürich)</li>
+	<li>Italian (Ticino, Graubünden)</li>
+	<li>Romansh (Graubünden)</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Syria</td>
+<td>Arabic</td>
+<td>Kurdish</td>
+<td>Assyrian
+<p>Western Neo-Aramaic
+Armenian</p></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Taiwan</td>
+<td>Mandarin Chinese</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Taiwanese Mandarin</li>
+	<li>Taiwanese Hokkien</li>
+	<li>Taiwanese Hakka</li>
+	<li>Formosan languages</li>
+	<li>Taiwan Sign Language</li>
+	<li>Matsu dialect</li>
+	<li>Wuqiu dialect</li>
+</ul>
+</td>
+<td></td></tr>
+<tr>
+<td>Tajikistan</td>
+<td>Tajik</td>
+<td></td>
+<td></td>
+<td>Tajik</td>
+<td>Russian</td></tr>
+<tr>
+<td>Tanzania</td>
+<td>
+<ul>
+	<li>Swahili</li>
+	<li>English</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>Swahili</td>
+<td></td></tr>
+<tr>
+<td>Thailand</td>
+<td>Thai</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Togo</td>
+<td>French</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Tokelau</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Tokelauan</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Tonga</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Tongan</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Transnistria</td>
+<td>
+<ul>
+	<li>Moldovan</li>
+	<li>Russian</li>
+	<li>Ukrainian</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Trinidad and Tobago</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Trinidadian Creole</td></tr>
+<tr>
+<td>Tunisia</td>
+<td>Arabic</td>
+<td></td>
+<td></td>
+<td>Arabic</td>
+<td></td></tr>
+<tr>
+<td>Turkey</td>
+<td>Turkish</td>
+<td></td>
+<td>Kurdish</td>
+<td>Turkish</td>
+<td></td></tr>
+<tr>
+<td>Turkmenistan</td>
+<td>Turkmen</td>
+<td></td>
+<td></td>
+<td>Turkmen</td>
+<td>Russian</td></tr>
+<tr>
+<td>Tuvalu</td>
+<td>
+<ul>
+	<li>Tuvaluan</li>
+	<li>English</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td>
+<ul>
+	<li>Tuvaluan</li>
+	<li>English</li>
+</ul>
+</td><td></td></tr>
+<tr>
+<td>Uganda</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Swahili</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Ukraine</td>
+<td>Ukrainian</td>
+<td>
+<ul>
+	<li>Russian (Autonomous Republic of Crimea)</li>
+	<li>Crimean Tatar (Autonomous Republic of Crimea)</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>United Arab Emirates</td>
+<td>Arabic</td>
+<td></td>
+<td></td>
+<td></td>
+<td>English</td></tr>
+<tr>
+<td>United Kingdom and Crown dependencies etc.</td>
+<td>English</td>
+<td>
+<ul>
+	<li>Irish and Ulster-Scots (in Northern Ireland)</li>
+	<li>Scots and Scottish Gaelic (in Scotland)</li>
+	<li>Welsh (in Wales)</li>
+	<li>Pitcairnese (in Pitcairn Islands)</li>
+	<li>Guernésiais and French (in Guernsey)</li>
+	<li>Jèrriais and French (in Jersey)</li>
+	<li>Manx (in Isle of Man)</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>United States</td>
+<td>English</td>
+<td>(28 languages)</td>
+<td></td>
+<td>Several indigenous languages of recognized federal tribes</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>Spanish</li>
+</ul>
+</td></tr>
+<tr>
+<td>Uruguay</td>
+<td>Spanish</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Uzbekistan</td>
+<td>Uzbek</td>
+<td></td>
+<td>
+<ul>
+	<li>Uzbek</li>
+	<li>Karakalpak and Uzbek in Karakalpakstan</li>
+</ul>
+</td>
+<td></td>
+<td>Russian</td></tr>
+<tr>
+<td>Vanuatu</td>
+<td>
+<ul>
+	<li>English</li>
+	<li>French</li>
+	<li>Bislama</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Vatican City</td>
+<td>
+<ul>
+	<li>Italian</li>
+	<li>Latin (formerly)</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Swiss German</td></tr>
+<tr>
+<td>Venezuela</td>
+<td>
+<ul>
+	<li>Spanish</li>
+	<li>Venezuelan Sign Language</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Vietnam</td>
+<td>Vietnamese</td>
+<td></td>
+<td>
+<ul>
+	<li>Cantonese</li>
+	<li>Cham</li>
+	<li>Hmong</li>
+	<li>Khmer</li>
+	<li>Lao</li>
+	<li>Muong</li>
+	<li>Rade</li>
+	<li>Tay</li>
+	<li>Thai</li>
+	<li>Vietnamese sign languages</li>
+</ul>
+</td>
+<td>Vietnamese</td>
+<td></td></tr>
+<tr>
+<td>Yemen</td>
+<td>Arabic</td>
+<td></td>
+<td>
+<ul>
+	<li>Mehri</li>
+	<li>Soqotri</li>
+</ul>
+</td>
+<td></td>
+<td></td></tr>
+<tr>
+<td>Zambia</td>
+<td>English</td>
+<td></td>
+<td></td>
+<td></td><td></td></tr>
+<tr>
+<td>Zimbabwe</td>
+<td>
+<ul>
+	<li>Chewa</li>
+	<li>Chibarwe</li>
+	<li>English</li>
+	<li>Kalanga</li>
+	<li>Khoisan</li>
+	<li>Nambya</li>
+	<li>Ndau</li>
+	<li>Ndebele</li>
+	<li>Shangani</li>
+	<li>Shona</li>
+	<li>Sign language</li>
+	<li>Sotho</li>
+	<li>Tonga</li>
+	<li>Tswana</li>
+	<li>Venda</li>
+	<li>Xhosa</li>
+</ul>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+</tbody>
+</table>
+
+source: <a href="https://en.wikipedia.org/wiki/List_of_official_languages_by_country_and_territory" target="_blank">https://en.wikipedia.org/wiki/List_of_official_languages_by_country_and_territory</a>
+
+</BODY>
+</HTML>
