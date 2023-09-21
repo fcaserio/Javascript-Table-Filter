@@ -1,5 +1,5 @@
 # Javascript-Table-FIlter
-Excel Like Table Filter By Header 
+Excel Like Table Filter By Table Header 
 
 Add Excel Like Filter Selects do any HTML table with easy steps
 1. Initialize your table:
